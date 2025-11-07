@@ -12,9 +12,11 @@ dataset_registry = {}
 
 hashes_str = pkgutil.get_data(__name__, "hashes.json")
 hashes = json.loads(hashes_str)
-
+CACHEDIR= "/Workspace/Shared/datasets"
+dbname = "rel-amazon"
+dbpath=f"{CACHEDIR}/{dbname}"
 DOWNLOAD_REGISTRY = pooch.create(
-    path=pooch.os_cache("relbench"),
+    path=dbpath,
     base_url="https://relbench.stanford.edu/download/",
     registry=hashes,
 )
@@ -39,7 +41,7 @@ def register_dataset(
     can pass `cache_dir` as a keyword argument in `kwargs`.
     """
 
-    cache_dir = f"{pooch.os_cache('relbench')}/{name}"
+    cache_dir = f"{CACHEDIR}/{name}"
     kwargs = {"cache_dir": cache_dir, **kwargs}
     dataset_registry[name] = (cls, args, kwargs)
 
